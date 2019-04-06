@@ -1,9 +1,6 @@
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-
 import java.util.concurrent.TimeUnit;
 public class BaseRunner {
     WebDriver driver;
@@ -13,7 +10,8 @@ public class BaseRunner {
     public void setUp(){
         driver = getDriver();
         baseUrl = "https://www.tinkoff.ru/mobile-operator/tariffs/";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     }
     @After
     public void tearDown(){
@@ -21,6 +19,7 @@ public class BaseRunner {
     }
     private WebDriver getDriver() {
         try {
+            if (browserName == null) browserName = "chrome";
             BrowsersFactory.valueOf(System.getProperty("browser"));
         } catch (Exception e) {
             System.setProperty("browser", browserName);
